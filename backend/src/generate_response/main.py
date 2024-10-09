@@ -33,6 +33,8 @@ def get_embeddings():
     return embeddings
 
 def get_faiss_index(embeddings, user, file_name):
+    logger.info(f"Downloading from path: {user}/{file_name}/index.faiss")
+
     s3.download_file(BUCKET, f"{user}/{file_name}/index.faiss", "/tmp/index.faiss")
     s3.download_file(BUCKET, f"{user}/{file_name}/index.pkl", "/tmp/index.pkl")
     faiss_index = FAISS.load_local("/tmp", embeddings, allow_dangerous_deserialization=True)
